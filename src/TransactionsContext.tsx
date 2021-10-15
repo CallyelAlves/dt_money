@@ -19,6 +19,7 @@ type CreateTransactionInput = Omit<Transaction, "id" | "createdAt">;
 interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: CreateTransactionInput) => Promise<void>;
+  setTransactions: (transaction: Transaction[]) => void;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>(
@@ -47,7 +48,9 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, setTransactions }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

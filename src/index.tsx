@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from "./App";
 import { createServer, Model } from "miragejs";
+import { ModalProvider } from "./ModalContext";
 
 createServer({
   models: {
@@ -48,7 +49,9 @@ createServer({
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ModalProvider>
+      <App />
+    </ModalProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

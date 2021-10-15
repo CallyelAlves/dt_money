@@ -5,7 +5,7 @@ export const Container = styled.div`
 
   table {
     width: 100%;
-    border-spacing: 0 .5rem;
+    border-spacing: 0 0.5rem;
 
     th {
       color: var(--text-body);
@@ -20,7 +20,7 @@ export const Container = styled.div`
       border: 0;
       background: var(--shape);
       color: var(--text-body);
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       text-align: center;
 
       &:first-child {
@@ -35,5 +35,22 @@ export const Container = styled.div`
         color: var(--red);
       }
     }
+
+    td button {
+      padding: 0 0.75rem;
+      background: var(--shape);
+      border: 0;
+
+      transition: transform 0.2s;
+    }
+
+    td button img {
+      width: 24px;
+      height: 24px;
+    }
+
+    td button img:hover {
+      transform: scale(1.2);
+    }
   }
-`
+`;
