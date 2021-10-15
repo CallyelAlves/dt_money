@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 import entradasIcon from "../../assets/entradas.svg";
 import saidasIcon from "../../assets/saídas.svg";
 import totalIcon from "../../assets/total.svg";
@@ -6,43 +6,53 @@ import { TransactionsContext } from "../../TransactionsContext";
 
 import { Container } from "./styles";
 
-function editValues(parms: ReactNode) {
-  return(
+function editValues(parms: Number) {
+  return (
     <>
-      {new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
+      {new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
       }).format(Number(parms))}
     </>
-  )
-  
+  );
 }
 
 export function Summary() {
+  const { transactions } = useContext(TransactionsContext);
 
-  const transactions = useContext(TransactionsContext);
-  console.log(transactions);
+  /* const deposit = transactions.reduce((acc, transaction) => {
+    if (transaction.type === "deposit") return acc + transaction.value;
 
-  let deposit = 0;
-  let withdraw = 0;
-  let arrayDeposit = [];
-  let arrayWithdraw = [];
+    return acc;
+  }, 0);
 
-  const expenditure = transactions.map(
-    transaction => transaction.type === 'withdraw' && (withdraw += transaction.value))
-  for (let i of expenditure){
-    if (i !== false){
-      arrayWithdraw.push(i)
+  const withdraw = transactions.reduce((acc, transaction) => {
+    if (transaction.type === "withdraw") {
+      return acc + transaction.value;
     }
-  }
-  const encome = transactions.map(
-    transaction => transaction.type === 'deposit' && (deposit += transaction.value))
-  for (let i of encome){
-    if (i !== false){
-      arrayDeposit.push(i)
+
+    return acc;
+  }, 0); */
+
+  const summary = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.type === "deposit") {
+        acc.deposit += transaction.value;
+        acc.total += transaction.value;
+      } else {
+        acc.withdraw += transaction.value;
+        acc.total -= transaction.value;
+      }
+
+      return acc;
+    },
+    {
+      deposit: 0,
+      withdraw: 0,
+      total: 0,
     }
-  }
-  
+  );
+
   return (
     <Container>
       <div>
@@ -50,7 +60,7 @@ export function Summary() {
           <p>Entradas</p>
           <img src={entradasIcon} alt="Entradas" />
         </header>
-        <strong>{editValues(arrayDeposit)}</strong>
+        <strong>{editValues(summary.deposit)}</strong>
       </div>
 
       <div>
@@ -58,7 +68,7 @@ export function Summary() {
           <p>Saidas</p>
           <img src={saidasIcon} alt="Saídas" />
         </header>
-        <strong>- {editValues(arrayWithdraw)}</strong>
+        <strong>- {editValues(summary.withdraw)}</strong>
       </div>
 
       <div className="highlight-background">
@@ -66,7 +76,7 @@ export function Summary() {
           <p>Total</p>
           <img src={totalIcon} alt="Total" />
         </header>
-        <strong>{editValues(deposit - withdraw)}</strong>
+        <strong>{editValues(summary.total)}</strong>
       </div>
     </Container>
   );
