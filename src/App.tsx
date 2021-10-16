@@ -10,9 +10,6 @@ import { ModalContext } from "./ModalContext";
 Modal.setAppElement("#root");
 
 export function App() {
-  /* const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
-    useState(false); */
-
   const { isNewTransactionModalOpen, setIsNewTransactionModalOpen } =
     useContext(ModalContext);
 

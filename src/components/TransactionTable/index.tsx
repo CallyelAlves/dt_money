@@ -4,14 +4,12 @@ import { TransactionsContext } from "../../TransactionsContext";
 import removeImg from "../../assets/remove.svg";
 import editImg from "../../assets/edit.svg";
 import { ModalContext } from "../../ModalContext";
-//import { NewTransactionModal } from "../NewTransactionModal";
 
 export function TransactionTable() {
   const { transactions, setTransactions } = useContext(TransactionsContext);
 
-  const { setIsNewTransactionModalOpen } = useContext(ModalContext);
-
-  //const { createTransaction } = useContext(TransactionsContext);
+  const { setIsNewTransactionModalOpen, setIsEditTransaction, setId } =
+    useContext(ModalContext);
 
   function handleRemoveTransaction(id: Number) {
     const filterTransaction = transactions.filter(
@@ -20,25 +18,10 @@ export function TransactionTable() {
     setTransactions(filterTransaction);
   }
 
-  function handleEditTransaction(id: Number) {
+  function handleEditTransaction(idTransaction: number) {
     setIsNewTransactionModalOpen(true);
-    const editTransaction = transactions.map((transaction) =>
-      transaction.id === id
-        ? {
-            ...transaction,
-            title: "Teste",
-          }
-        : transaction
-    );
-    // eslint-disable-next-line no-lone-blocks
-    {
-      /* <NewTransactionModal
-      isOpen={isNewTransactionModalOpen}
-      onRequestClose={() => setIsNewTransactionModalOpen}
-    />; */
-    }
-
-    setTransactions(editTransaction);
+    setIsEditTransaction(true);
+    setId(idTransaction);
   }
 
   return (

@@ -5,6 +5,7 @@ import closeImg from "../../assets/vector.svg";
 import entradaImg from "../../assets/entradas.svg";
 import saidaImg from "../../assets/saídas.svg";
 import { TransactionsContext } from "../../TransactionsContext";
+import { ModalContext } from "../../ModalContext";
 
 interface NewTransactionModalProps {
   isOpen: boolean;
@@ -15,7 +16,11 @@ export function NewTransactionModal({
   isOpen,
   onRequestClose,
 }: NewTransactionModalProps) {
-  const { createTransaction } = useContext(TransactionsContext);
+  const { createTransaction, transactions, setTransactions } =
+    useContext(TransactionsContext);
+
+  const { isEditTransaction, id, setIsEditTransaction } =
+    useContext(ModalContext);
 
   const [type, setType] = useState("deposit");
   const [title, setTitle] = useState("");
@@ -37,6 +42,22 @@ export function NewTransactionModal({
     setValue(0);
     setCategory("");
     onRequestClose();
+
+    if (isEditTransaction === true) {
+      const editTransaction = transactions.map((transaction) =>
+        transaction.id === id
+          ? {
+              ...transaction,
+              title: title,
+              value: value,
+              type: type,
+              category: category,
+            }
+          : transaction
+      );
+      setTransactions(editTransaction);
+      setIsEditTransaction(false);
+    }
   }
 
   return (
