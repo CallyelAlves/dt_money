@@ -36,21 +36,21 @@ export const Container = styled.div`
       }
     }
 
-    td button {
-      padding: 0 0.75rem;
-      background: var(--shape);
-      border: 0;
-
-      transition: transform 0.2s;
-    }
-
     td button img {
       width: 24px;
       height: 24px;
     }
 
-    td button img:hover {
-      transform: scale(1.2);
+    td button {
+      padding: 0 0.75rem;
+      background: var(--shape);
+      border: 0;
+      outline: none;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 `;
